@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEEE CUSB - Hall of Fame</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPYdXZwCYBk64HR4GYNFNwXmyHKSia-vQqQ&s" type="image/x-icon">
+
+  <!-- Bootstrap CSS -->
+  <!-- Include GSAP from CDN -->
+  <script src="/script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="/style.css" rel="stylesheet">
+  <!-- Custom CSS -->
+    
+  <style>
+    /* Hall of Fame Styling */
+    .hall-of-fame-container {
+      color: white;
+      text-align: center;
+      padding: 50px 15px;
+      padding-top: 0px;
+    }
+
+    .hall-of-fame-title {
+      font-size: 2.5rem;
+      margin-top: 70px;
+      margin-bottom: 30px;
+      color: #ffd93d;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      animation: bounceIn 1s ease-out;
+    }
+
+    .hall-of-fame-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .hall-of-fame-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      color: #ffd93d;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hall-of-fame-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    /* Adding light animation to images */
+    .gallery-img {
+        width: 150px;
+        height: 150px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .gallery-img:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    /* Spotlight Stories Styling */
+    .spotlight-stories {
+      font-size: 1.1rem;
+      margin-top: 20px;
+      color: #ffec99;
+    }
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-100px);
+      }
+      50% {
+        opacity: 0.9;
+        transform: scale(1.05) translateY(20px);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(0.9) translateY(-10px);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+      }
+    }
+    /* Styling the title */
+    .title {
+      font-size: 2.5em;
+      /* margin-top: 70px; */
+      margin-bottom: 30px;
+      text-align: center;
+      /* Apply a linear gradient background */
+      background: linear-gradient(45deg, #ffd93d,#ff6ec4, #7873f5,#ff6b6b);
+      -webkit-background-clip: text;
+      color: transparent;
+
+      /* Add shadow for depth */
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+
+      /* Animation properties */
+      animation: bounceIn 1s ease-out;
+    }
+
+    .birthday-display {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .birthday-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 15px;
+      text-align: center;
+      width: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .birthday-card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .birthday-card h2 {
+      margin-top: 10px;
+      font-size: 1.5em;
+    }
+
+    .birthday-card p {
+      font-size: 1em;
+      color: #f5f5f5;
+      margin-top: 5px;
+    }
+
+    .birthday-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    /* Hover Effects */
+    .birthday-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .birthday-card:hover .birthday-photo {
+      transform: scale(1.1) rotate(5deg);
+    }
+  </style>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const birthdayDisplay = document.getElementById("birthday-display");
+
+    // Function to fetch data from Excel
+    async function loadBirthdayData() {
+      try {
+        const file = await fetch('birthdaylist.xlsx').then(response => response.blob());
+        const data = await file.arrayBuffer();
+        const workbook = XLSX.read(data, { type: "array" });
+        
+        // Log workbook and sheet names for debugging
+        console.log(workbook);
+        console.log(workbook.SheetNames);
+        
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        
+        // Log the sheet data to confirm it's being read
+        console.log(sheet);
+        
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        // Log the parsed JSON data
+        console.log(jsonData);
+
+        // Process data into objects with corrected birthday format
+        return jsonData
+          .filter((row) => row.NewName && row.Birthday && row.Wishes) // Ensure necessary columns have values
+          .map((row) => ({
+            name: row.NewName,      // Accessing 'Name' column in object structure
+            birthday: formatExcelDate(row.Birthday),  // Convert Excel date serial number to a readable format
+            wishes: row.Wishes, // Accessing 'Wishes' column
+            prefix: row.prefix,    // Accessing 'prefix' column
+            photo: row.Photo || "" // Accessing 'Photo' column, or empty string if not available
+          }));
+      } catch (error) {
+        console.error("Error loading birthday data: ", error);
+      }
+    }
+
+    // Helper function to format Excel date serial number to MM-DD-YYYY
+    function formatExcelDate(serial) {
+    // Excel serial date starts from January 1, 1900
+    // Excel's date system starts on January 1, 1900
+    const excelStartDate = new Date(Date.UTC(1900, 0, 1)); // Jan 1, 1900, in UTC
+
+    // Adjust for Excel's leap year bug (Excel wrongly considers 1900 a leap year)
+    excelStartDate.setUTCDate(excelStartDate.getUTCDate() + serial - 2); // Subtract 2 to adjust for leap year bug
+
+    // IST offset is UTC +5:30
+    const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in milliseconds
+    const adjustedDate = new Date(excelStartDate.getTime() + IST_OFFSET); // Adjust date to IST
+
+    // Format the adjusted date
+    const day = String(adjustedDate.getDate()).padStart(2, "0");
+    const month = String(adjustedDate.getMonth() + 1).padStart(2, "0"); // months are 0-indexed in JS Date
+    const year = adjustedDate.getFullYear();
+    console.log("date",`${day}-${month}-${year}`);
+    return `${day}-${month}-${year}`;      
+    }
+
+    // Display the birthdays for today
+    async function displayTodayBirthdays() {
+      const birthdayData = await loadBirthdayData();
+
+      // Get today’s date in DD-MM-YYYY format
+      const today = new Date();
+      const todayStr = String(today.getDate()).padStart(2, "0") + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + today.getFullYear();
+
+      console.log("Today's Date: ", todayStr); // Log today's date for comparison
+      // Filter birthdays for today
+      const todayBirthdays = birthdayData.filter((entry) => entry.birthday === todayStr);
+
+      if (todayBirthdays.length === 0) {
+        birthdayDisplay.innerHTML = "<p>No birthdays today!</p>";
+      } else {
+        todayBirthdays.forEach((entry) => {
+          const card = document.createElement("div");
+          card.className = "birthday-card";
+          card.innerHTML = `
+            <div class="birthday-card-inner">
+                <img src="https://media.tenor.com/1qTHizXPCXsAAAAj/birthday-happy-birthday.gif" alt="Happy Birthday" class="birthday-photo" height=40 width =40>
+              ${entry.photo ? `<img src="${entry.photo}" alt="${entry.name}" class="birthday-photo">` : ''}
+              <h2 style="color: #ff6b6b">${entry.prefix}&nbsp${entry.name}</h2>
+              <p style="color: #ffd93d;">${entry.wishes}</p>
+            </div>
+          `;
+          birthdayDisplay.appendChild(card);
+
+          // GSAP animation for entry
+          gsap.from(card, {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power2.out"
+          });
+        });
+      }
+    }
+      displayTodayBirthdays();
+    });
+  </script>
+</head>
+<body>
+  <div id="fixedhtml"></div>
+  
+  <!-- Hall of Fame Section -->
+<section class="hall-of-fame-container">
+    <h1 class="hall-of-fame-title">Hall of Fame - Celebrating People and Legacy</h1>
+    <div class="hall-of-fame-content">
+      <!-- Featured Members -->
+      <div class="hall-of-fame-card">
+        <h3>Vision</h3>
+        <p>Empowering students to lead with forward-thinking ideas and shape a better tomorrow.</p>
+      </div>
+      <!-- Legacy -->
+      <div class="hall-of-fame-card" style="width:220px; height:270px; border:2px solid #ffd93d">
+        <h3>Legacy</h3>
+        <p>Inspiring generations through a tradition of excellence and impactful contributions to technology.</p>
+      </div>
+      <!-- Spotlight Stories -->
+      <div class="hall-of-fame-card">
+        <h3>Innovation</h3>
+        <p>Fostering creativity, embracing change, and driving advancements in engineering and technology.</p>
+      </div>
+    </div>
+    <p class="spotlight-stories text-center mt-4">A tribute to those who have shaped and defined our organization’s mission and values.</p>
+    <!-- Image Gallery -->
+    <div class="hall-of-fame-gallery d-flex justify-content-center gap-3 flex-wrap mt-4">
+        <img src="https://media.licdn.com/dms/image/v2/C4D03AQGwWNcmsRKXgA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1660482948185?e=2147483647&v=beta&t=qKNIjFu1pNWfYFA03YL2fERD05GwJwoaRpimFEJuo2o" alt="Hall of Fame Image 1" class="rounded-circle img-thumbnail gallery-img" style="width:150px; height:150px;">
+        <img src="https://media.licdn.com/dms/image/v2/C4D03AQFa9YbeRPH4rQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1656849480467?e=2147483647&v=beta&t=T3roOwFyi2eBKIWTuonI3mjpgluXlQgx8QWdf0L-IYo" alt="Hall of Fame Image 2" class="rounded-circle img-thumbnail gallery-img" style="width:150px; height:150px;">
+        <img src="https://media.licdn.com/dms/image/v2/D5603AQGxM40wyGcEuA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1708018520320?e=2147483647&v=beta&t=S1sdiaHYALl5ISAgccFufnve3_a2i5cmy2_ForZvRLQ" alt="Hall of Fame Image 3" class="rounded-circle img-thumbnail gallery-img" style="width:150px; height:150px;">
+    </div>    
+      
+  </section>
+  <hr style="color: #f5f5f5;">
+  <!-- Additional Sections if needed -->
+  <div class="hall-of-fame-container">
+    <h1 class="title">Hall of Fame - Birthday Wishes</h1>
+    <div id="birthday-display" class="birthday-display">
+      <!-- Dynamic content will be loaded here -->
+    </div>
+  </div>
+  <div id="fixedhtmlfooter"></div>
+  <script>
+    fetch('fixedhtmlstructure.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('fixedhtml').innerHTML = data;
+            setActiveLink(); // Call the function after the structure is loaded
+        });
+
+    function setActiveLink() {
+        // Get the current path of the page
+        const currentPath = window.location.pathname.split("/").pop(); // Extract only the filename
+        console.log("Current Path:", currentPath);
+
+        // Select all nav-link elements
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Loop through each link and add/remove 'active' class based on currentPath
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href'); // Get the 'href' attribute of each link
+            console.log("Link Path:", linkPath);
+
+            // Check if the link path matches the current path
+            if (linkPath === currentPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    fetch('fixedhtmlfooter.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('fixedhtmlfooter').innerHTML = data;
+        });
+    </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script></body>
+  <script src="loader.js"></script>
+</html>

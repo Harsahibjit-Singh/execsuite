@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEEE CUSB - Certificate Generation</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPYdXZwCYBk64HR4GYNFNwXmyHKSia-vQqQ&s" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="/script.js"></script>
+  <script src="loader.js"></script>
+  <style>
+    /* Heading Style */
+    .heading {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        color: #ffd93d; /* Text color */
+        background: linear-gradient(90deg, #002f5a, #004f91); /* Dark blue background gradient */
+        -webkit-background-clip: text;/* -webkit-text-fill-color: transparent; */
+        padding: 1rem;
+        margin: 2rem 0;
+        position: relative;
+        
+    }
+    /* Hover Effect */
+    .heading:hover {
+        transform: scale(1.05); /* Slightly scale up the heading */
+        color: #cb551b; /* Lighter color when hovered */
+    }
+    .heading:hover .shine{
+        color: #e2a23c;
+    }
+    .heading:hover #certificatetagline{
+        color: #e2a23c;
+    }
+    /* Star Shine Animation */
+    .shine {
+        padding-left: 0px;
+        font-size: 25px;
+        color: #ffd93d;
+        position: absolute;
+        /* right: 120px; Place it on the right side of the heading */
+        top: 20%;
+        /* transform: translateY(-50%); */
+        animation: star-shine 2s infinite alternate;
+    }
+
+    /* Star Shining Animation */
+    @keyframes star-shine {
+        0% {
+            opacity: 0.3;
+            transform: translateY(-50%) scale(0.8);
+        }
+        50% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.2);
+        }
+        100% {
+            opacity: 0.3;
+            transform: translateY(-50%) scale(0.8);
+        }
+    }
+
+    #certificatetagline{
+        font-family: 'Times New Roman', Times, serif;
+    }
+    /* Card Styling */
+    .certificate-card {
+        /* border: none; */
+        border-radius: 10px !important;
+        overflow: hidden;
+        background-color: #003f73 !important; 
+        color: #ffd93d;
+        transform: scale(1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .certificate-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Card Image */
+    .card-img-top {
+        height: 150px;
+        object-fit:fill;
+        transition: transform 0.3s ease;
+        text-align: center;
+        top: 20%;
+        position: relative;
+        font-size: 2rem;
+        font-family: 'Times New Roman', Times, serif;
+        color: #ffd93d;
+    }
+    .certificate-card:hover .card-img-top {
+        transform: scale(1.1);
+    }
+
+    /* Scrollable Container */
+    .container {
+    box-shadow: 0 4px 10px #ffd93d ;
+    border: 2px solid #002d5b;
+    border-radius: 20px;
+    
+    }
+    .card-body {
+        transition: background-color 0.3s ease;
+
+    }
+    .certificate-card:hover .card-body {
+        background-color: #002f5a;
+        border: 2px solid #002d5b;
+    }
+  </style>
+
+  <style>
+      /* Form Styles */
+      #certificateTitle{
+        text-align: center;
+        padding-bottom: 10px;
+        font-weight: 800;
+      }
+      #certificateForm {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; /* High value to ensure it's on top */
+            background: linear-gradient(135deg, #002f5a, #004f91);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            color: #ffd93d;
+             /* Initially hidden */
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 90%;
+            max-width: 600px;
+            border: 2px solid #ffd93d;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay */
+            z-index: 9998; /* Just below the form */
+            display: none; /* Initially hidden */
+        }
+
+        .certificate-form.active {
+            display: block;
+        }
+
+        .form-label {
+            color: gold;
+        }
+
+        .form-control, .form-select {
+            background-color: transparent;
+            border: 1px solid gold;
+            color: #ffd93d;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #ffd93d;
+            box-shadow: 0 0 5px #ffd93d;
+        }
+
+        .btn-submit {
+            background-color: #002f5a !important;
+            color:  #ffd93d !important;
+            border: 2px solid #ffd93d !important;
+            transition: background-color 0.3s, border-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: gold !important;
+            color: #002f5a !important;
+            border-color: #002f5a;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+       <style>
+        /* Custom Styles */
+        .modal-content {
+          background: #002d5b !important;
+          color: #ffd93d !important;
+          border-radius: 15px !important;
+          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3) !important;
+          transition: transform 0.3s ease-in-out !important;
+        }
+        .modal-content:hover {
+          transform: scale(1.02) !important;
+        }
+        .cardmodal {
+          background: #ffd93d !important;
+          color: #002d5b !important;
+          border: none !important;
+          border-radius: 10px !important;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+          transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        .cardmodal:hover {
+          transform: translateY(-10px) !important;
+          box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+        .cardmodal img {
+          border-top-left-radius: 10px !important;
+          border-top-right-radius: 10px !important;
+        }
+        .modal-backdrop {
+          backdrop-filter: blur(5px) !important;
+        }
+        .modal-title{
+            text-align: center;
+        }
+      </style>
+</head>
+<body>
+    <div id="fixedhtmlnavbar"></div>
+    <script>
+        fetch('fixedhtmlstructure.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('fixedhtmlnavbar').innerHTML = data;
+            setActiveLink();
+          });
+            // Function to set the active link based on current URL
+            function setActiveLink() {
+            // Get the current path of the page
+            const currentPath = window.location.pathname.split("/").pop(); // Extract only the filename
+            console.log("Current Path:", currentPath);
+    
+            // Select all nav-link elements
+            const navLinks = document.querySelectorAll('.nav-link');
+    
+            // Loop through each link and add/remove 'active' class based on currentPath
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href'); // Get the 'href' attribute of each link
+                console.log("Link Path:", linkPath);
+    
+                // Check if the link path matches the current path
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        fetch('fixedhtmlfooter.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fixedhtmlfooter').innerHTML = data;
+            });
+      </script>
+      
+      <script>
+        document.getElementById("certificateFormaction").onsubmit = function(event) {
+        const nameField = document.getElementById("name");
+            if (!nameField.value.trim()) {
+                alert("Name field cannot be empty!");
+                event.preventDefault();
+            }
+        };
+        function toggleChapterField() {
+            const organizedBy = document.getElementById("organizedBy").value;
+            document.getElementById("chapterField").style.display = organizedBy === "chapter" ? "block" : "none";
+        }
+    
+      </script>
+    <script>
+        
+    </script>
+    
+    
+            <script>
+                // Function to open the form
+                var certificateTitle;
+                var designModal;
+                function opendesignform(certificateTitlepassed) {
+                  designModal = new bootstrap.Modal(document.getElementById('designModal'));
+                  designModal.show();
+                  certificateTitle = certificateTitlepassed;
+                  
+                }   
+              // Function to open the form with the specific certificate title
+              function openForm(certificateDesign) {
+                const form = document.getElementById('certificateForm');
+                const overlay = document.getElementById('overlay');
+                designModal.hide();
+    
+                // Update the title of the form
+                document.getElementById('certificateTitle').innerText = 'Certificate '+certificateTitle;   
+                document.getElementById('certificateType').value = certificateTitle;
+                document.getElementById('certificatedesign').value = certificateDesign;
+                console.log(certificateDesign);
+                console.log(certificateTitle);
+                // Show the form and overlay
+                form.style.display = 'block';
+                overlay.style.display = 'block';
+                }
+                //Show or hide the date field based on the selection
+                function toggleDateField() {
+                  var duration = document.getElementById('eventDuration').value;
+                  if (duration === 'singleday') {
+                        // Show Single Day Date, hide Multi Day Date fields
+                        document.getElementById('singleDayDate').style.display = 'block';
+                        document.getElementById('multiDayDates').style.display = 'none';
+                        document.getElementById('multiDayEndDate').style.display = 'none';
+                  } else if (duration === 'multiday') {
+                        // Show Multi Day Date fields, hide Single Day Date
+                        document.getElementById('singleDayDate').style.display = 'none';
+                        document.getElementById('multiDayDates').style.display = 'block';
+                        document.getElementById('multiDayEndDate').style.display = 'block';
+                    }
+                }
+    
+              // Show or hide the logo upload field based on the radio button selection
+              function toggleLogoUpload(show) {
+                  const logoUploadField = document.getElementById('logoUploadField');
+                  logoUploadField.style.display = show ? 'block' : 'none';
+              }
+              // Close form and hide overlay
+              function closeForm() {
+                  const form = document.getElementById('certificateForm');
+                  const overlay = document.getElementById('overlay');
+                  
+                  // Hide the form and overlay
+                  form.style.display = 'none';
+                  overlay.style.display = 'none';
+              }
+              
+          </script>
+
+
+
+        <div class="heading">CERTIFICATES<span class="shine">&#9733;</span><h4 id="certificatetagline">Recognizing Excellence, Celebrating Achievements.</h4></div>
+        <!-- &#9733 &#128969  code for star2 -->
+          <div class="container py-5" style="background-color: #004f91; color: #ffd93d;">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- Certificate Cards -->
+                <div class="col">
+                    <div class="card certificate-card h-100" onclick="opendesignform('of PARTICIPATION')" >
+                        <div class="card-img-top">Participation</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Certificate of Participation</h5>
+                            <p class="card-text">Awarded for attending workshops or similar events.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card certificate-card h-100" onclick="opendesignform('of ACHIEVEMENT')">
+                        <div class="card-img-top">Achievement</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Certificate of Achievement</h5>
+                            <p class="card-text">Given for outstanding performance or success.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add similar blocks for all certificates -->
+                <div class="col">
+                    <div class="card certificate-card h-100" onclick="opendesignform('of LEADERSHIP')">
+                        <div class="card-img-top">Leadership</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Leadership Certificate</h5>
+                            <p class="card-text">Recognizes strong leadership and organizational skills.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add similar blocks for all certificates -->
+                <div class="col">
+                  <div class="card certificate-card h-100" onclick="opendesignform('of RECOGNITION')">
+                    <div class="card-img-top">Recognition</div>
+                      <div class="card-body">
+                          <h5 class="card-title">Certificate of Recognition</h5>
+                          <p class="card-text">Honors significant contributions or achievements.</p>
+                      </div>
+                  </div>
+                </div>
+                <!-- Add similar blocks for all certificates -->
+                <div class="col">
+                    <div class="card certificate-card h-100" onclick="opendesignform('for GUEST SPEAKER')">
+                        <div class="card-img-top">Guest Speaker</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Guest Speaker Certificate</h5>
+                            <p class="card-text">Acknowledges contributions as a guest speaker at an event.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add similar blocks for all certificates -->
+                <div class="col">
+                <div class="card certificate-card h-100" onclick="opendesignform('of HONOUR')">
+                    <div class="card-img-top">Honour</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Certificate of Honour</h5>
+                        <p class="card-text">Celebrates exceptional dedication or remarkable contributions.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Add similar blocks for all certificates -->
+            <div class="col">
+                <div class="card certificate-card h-100" onclick="opendesignform('of APPRECIATION')">
+                    <div class="card-img-top">Appreciation</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Certificate of Appreciation</h5>
+                        <p class="card-text">Expresses gratitude for support or assistance provided.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Add similar blocks for all certificates -->
+            <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('for VOLUNTEERING')">
+                <div class="card-img-top">Volunteer</div>
+                <div class="card-body">
+                    <h5 class="card-title">Volunteer Certificate</h5>
+                    <p class="card-text"> Recognizes time and effort dedicated to volunteering.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add similar blocks for all certificates -->
+        <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('of ATTENDANCE')">
+                <div class="card-img-top">Attendance</div>
+                <div class="card-body">
+                    <h5 class="card-title">Certificate of Attendance</h5>
+                    <p class="card-text">Confirms participation in a seminar, workshop, or event.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add similar blocks for all certificates -->
+        <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('for VOLUNTEER OF THE MONTH')">
+                <div class="card-img-top">Volunteer of the Month</div>
+                <div class="card-body">
+                    <h5 class="card-title">Volunteer of the Month Certificate</h5>
+                    <p class="card-text">Highlights outstanding volunteer contributions during the specified period.</p>
+                </div>
+            </div>
+       </div>
+        <!-- Add similar blocks for all certificates -->
+        <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('for TEAMWORK')">
+                <div class="card-img-top">Teamwork</div>
+                <div class="card-body">
+                    <h5 class="card-title">Teamwork Certificate</h5>
+                    <p class="card-text">Rewards exceptional collaboration and team spirit.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add similar blocks for all certificates -->
+        <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('of SPONSORSHIP')">
+                <div class="card-img-top">Sponsorship</div>
+                <div class="card-body">
+                    <h5 class="card-title">Certificate of Sponsorship</h5>
+                    <p class="card-text">Appreciates sponsors for their valuable supports.</p>
+                </div>
+            </div>
+        </div>  
+        <!-- Add similar blocks for all certificates -->
+        <div class="col">
+            <div class="card certificate-card h-100" onclick="opendesignform('of RETIREMENT')">
+                <div class="card-img-top">Retirement</div>
+                <div class="card-body">
+                    <h5 class="card-title">Retirement Certificate</h5>
+                    <p class="card-text">Celebrates an individual's career and service upon retirement.</p>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="designModal" tabindex="-1" aria-labelledby="designModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="designModalLabel">Our Designs</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <!-- Cards -->
+            <div class="col-md-4">
+              <div class="card cardmodal" data-design="design1" onclick="openForm(this.dataset.design)">
+                <img src="uploads/assessts/certificate_design_1.png" class="card-img-top" alt="Design 1">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 1</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" onclick="openForm('design2')">
+              <div class="card cardmodal">
+                <img src="uploads/assessts/certificate_design_2.png" class="card-img-top" alt="Design 2">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 2</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" onclick="openForm('design3')">
+              <div class="card cardmodal">
+                <img src="uploads/assessts/certificate_design_3.png" class="card-img-top" alt="Design 3">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 3</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" onclick="openForm('design4')">
+              <div class="card cardmodal">
+                <img src="uploads/assessts/certificate_design_4.png" class="card-img-top" alt="Design 4">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 4</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4"  onclick="openForm('design5')">
+              <div class="card cardmodal">
+                <img src="uploads/assessts/certificate_design_5.png" class="card-img-top" alt="Design 5">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 5</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" onclick="openForm('design6')">
+              <div class="card cardmodal">
+                <img src="uploads/assessts/certificate_design_6.png" class="card-img-top" alt="Design 6">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Design 6</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        <div id="fixedhtmlfooter"></div>
+
+        
+        
+        
+        
+
+
+            <!-- Form -->
+    <div id="certificateForm" class="certificate-form" style="display: none;">
+      <h3 id="certificateTitle">Certificate Form</h3>
+      <form id="certificateFormaction" method="POST" enctype="" action="https://script.google.com/macros/s/AKfycbzh1neMQkHhmppu4iYiO0-S39ACoNa7b6CVA0HXkQIGkZNWBk7xtC0hfrTvhtW1-vUDJQ/exec" target="_blank">
+        <input type="hidden" name="certificateType" id="certificateType">
+        <input type="hidden" name="certificatedesign" id="certificatedesign">
+          <!-- Name Field -->
+          <div class="mb-3">
+              <label for="name" class="form-label">Name <span class="small">(Separate multiple names with commas)</span></label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter names" required>
+          </div>
+
+          <!-- Event Name -->
+          <div class="mb-3">
+              <label for="eventName" class="form-label">Name of Event</label>
+              <input type="text" class="form-control" id="eventName" name="eventName" placeholder="Enter event name" required>
+          </div>
+
+        <!-- Chapter Selection -->
+        <div class="mb-3">
+            <label for="chapterSelect" class="form-label ">Select Chapter</label>
+            <select class="form-control" id="chapterSelect" name="chapter" required>
+              <option value="" disabled selected>Select a chapter</option>
+              <option value="IEEE CUSB Core">IEEE CUSB Core</option>
+              <option value="IEEE Computer Society">IEEE Computer Society</option>
+              <option value="IEEE Women in Engineering">IEEE Women in Engineering</option>
+              <option value="IEEE Consumer Technology Society">IEEE Consumer Technology Society</option>
+              <option value="IEEE Computational Intelligence Society">IEEE Computational Intelligence Society</option>
+              <option value="IEEE Photonics Society">IEEE Photonics Society</option>
+              <option value="IEEE Prakash Bharti Student Chapter">IEEE Prakash Bharti Student Chapter Photonics</option>
+              <option value="IEEE Power & Energy Society">IEEE Power & Energy Society</option>
+              <option value="IEEE Robotics and Automation Society">IEEE Robotics and Automation Society</option>
+              <option value="IEEE Communications Society">IEEE Communications Society</option>
+            </select>
+          </div>
+  
+          <!-- Event Duration -->
+          <div class="mb-3">
+            <label for="eventDuration" class="form-label">Duration of the Event</label>
+            <select class="form-select" id="eventDuration" name="eventDuration" onchange="toggleDateField()">
+                <option value="" disabled selected>Select an option</option>
+                <option value="singleday">Single-Day Event</option>
+                <option value="multiday">Multi-Day Event</option>
+            </select>
+          </div>
+        
+        <!-- Single Day Date -->
+        <div id="singleDayDate" class="mb-3" style="display:none;">
+            <label for="singleDate" class="form-label">Event Date</label>
+            <input type="date" class="form-control" id="singleDate" name="singleDate">
+        </div>
+        
+        <!-- Multi Day Date -->
+        <div id="multiDayDates" class="mb-3" style="display:none;">
+            <label for="startDate" class="form-label">Event Start Date</label>
+            <input type="date" class="form-control" id="startDate" name="startDate">
+        </div>
+        
+        
+        
+        <div id="multiDayEndDate" class="mb-3" style="display:none;">
+            <label for="endDate" class="form-label">Event End Date</label>
+            <input type="date" class="form-control" id="endDate" name="endDate">
+        </div>
+          <!-- Logo Upload -->
+          <!-- <div class="mb-3">
+              <label class="form-label">Is there any specific logo for your event?</label>
+              <div>
+                  <input type="radio" id="logoYes" name="logo" value="yes" onclick="toggleLogoUpload(true)">
+                  <label for="logoYes">Yes</label>
+                  <input type="radio" id="logoNo" name="logo" value="no" onclick="toggleLogoUpload(false)">
+                  <label for="logoNo">No</label>
+              </div>
+          </div> -->
+
+          <!-- Upload Field (Hidden by default) -->
+          <!-- <div class="mb-3" id="logoUploadField" style="display: none;">
+              <label for="logoUpload" class="form-label">Upload Logo</label>
+              <input type="file" class="form-control" id="logoUpload" name="logoUpload">
+          </div> -->
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-submit w-100">Submit</button>
+          <!-- <button type="button" class="btn btn-submit w-100" onclick="closeForm()">Close</button> -->
+
+      </form>
+  </div>
+  <div id="overlay" onclick="closeForm()"></div>
+
+       <!-- Bootstrap JS -->
+        
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,169 @@
+
+<style>
+  #instructionsbody{
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Modal container */
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+        }
+
+        .modal-container.active {
+            visibility: visible;
+            opacity: 1;
+            z-index: 1000;
+        }
+
+        /* Modal box */
+        .modal-box {
+            background: linear-gradient(135deg, #002f5a, #004b91);
+            border: 2px solid #ffd93d;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            color: #ffd93d;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .modal-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .modal-box ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modal-box li {
+            font-size: 18px;
+            margin: 10px 0;
+            position: relative;
+            padding-left: 25px;
+            animation: fadeUp 1s ease-out;
+        }
+
+        .modal-box li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #ffd93d;
+            font-weight: bold;
+        }
+
+        /* Cancel button */
+        .cancel-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #ffd93d;
+            color: #002f5a;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cancel-btn:hover {
+            background-color: #f0c43d;
+            transform: scale(1.05);
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal Trigger -->
+     <div id="instructionsbody">
+
+
+    <!-- Modal -->
+    <div class="modal-container active" id="modal">
+        <div class="modal-box">
+            <h2>Important Instructions</h2>
+            <ul>
+                <li>Ensure all fields are correctly filled before submission.</li>
+                <li>Use the recommended browser for optimal performance.</li>
+                <li>Double-check event details before publishing them.</li>
+                <li>Report any issues promptly to the admin team.</li>
+            </ul>
+            <button class="cancel-btn" id="closeModal">Cancel</button>
+        </div>
+    </div>
+  </div>
+    <script>
+        // Get modal elements
+        const modal = document.getElementById('modal');
+        // const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+
+
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Close modal on clicking outside of the modal box
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>

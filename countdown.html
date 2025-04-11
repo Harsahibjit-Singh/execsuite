@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Redirect</title>
+</head>
+<body>
+  <h1>Redirecting in <span id="countdown">10</span> seconds...</h1>
+  <script>
+    // JavaScript function for countdown and redirect
+    function startCountdown() {
+      let countdownNumber = 10; // Start countdown from 10
+      const countdownElement = document.getElementById('countdown');
+
+      const interval = setInterval(() => {
+        countdownNumber--;
+        countdownElement.textContent = countdownNumber;
+
+        if (countdownNumber <= 0) {
+          clearInterval(interval);
+          window.location.href = "https://example.com"; // Replace with your link
+        }
+      }, 1000); // Run every 1 second
+    }
+
+    // Start the countdown when the page loads
+    window.onload = startCountdown;
+  </script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+
+/* Page Styling */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #004f91, #002d5b, #003a77);
+  background-size: 200% 200%;
+  animation: backgroundGradient 10s ease infinite;
+  color: #fff;
+  overflow-x: hidden;
+  padding-top: 5vh;
+  /* To prevent the scrollbar from appearing while still allowing scrolling functionality */
+  /* overflow-y: auto; 
+  -ms-overflow-style: #ffd93d; 
+  scrollbar-width: none;
+} */
+
+::-webkit-scrollbar {
+  width: 4px; /* Width of the scrollbar */
+  height: 5px; /* Height of the scrollbar for horizontal scroll */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffd93d; /* Color of the scrollbar */
+  border-radius: 10px; /* Rounded edges */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #002f5a; /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+/* Background Animation */
+@keyframes backgroundGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.custom-dropdown-menu {
+  backdrop-filter: blur(2px); /* Adds blur effect */
+  background-color: rgba(43, 66, 104, 0.7); /* Semi-transparent dark background */
+  border-radius: 0.5rem; /* Rounded corners */
+  opacity: 0; /* Start hidden */
+  transform: translateY(-10px); /* Start with a slight upward offset */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth animation */
+  color: #ffd93d;
+}
+
+.custom-dropdown-menu.show {
+  opacity: 1; /* Fade in when shown */
+  transform: translateY(0); /* Reset position */
+}
+.dropdown-item{
+  color: #ffd93d;
+}
+.dropdown-item:hover{
+  color: #002d5b;
+  background-color: #ffd93d;
+  
+}
+
+.description {
+  /* font-size: 1.5rem; */
+  /* max-width: ; */
+  padding: 20px;
+  margin: 20px auto;
+  opacity: 0;
+  animation: slideIn 2s ease 1.5s forwards;
+}
+
+.navbar{
+  position: fixed;
+}
+
+.nav-item {
+  /* padding-right: 10px !important; */
+  /* font-size: 16px; */
+  font-weight: 500 !important;
+  /* font-size: large; */
+}
+/* Landing Content */
+.landing-content {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Animated Text (IEEE CUSB) */
+.ieee-text {
+  font-size: 8vw;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d, #4db8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: pulseText 3s ease-in-out infinite, colorChange 5s linear infinite;
+}
+
+/* Pulsing and Scaling Animation for Text */
+@keyframes pulseText {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+/* Continuous Gradient Animation for Text */
+@keyframes colorChange {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Moving Banner Animation */
+.banner {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0;
+  background: rgba(0, 77, 153, 01);
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  z-index: 1000;
+  /* animation: slideInOut 8s ease-in-out infinite; */
+}
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideInOut {
+  0%, 100% { transform: translateY(100%); }
+  10%, 90% { transform: translateY(0); }
+}
+
+
+  /* Follow Us Section */
+  .headingfollowus {
+    padding-top: 20px;
+font-size: 1.5rem;
+color: #ffd93d;
+/* text-transform: uppercase; */
+font-weight: 700;
+letter-spacing: 5px;
+text-align: center;
+position: relative; /* This will be the reference for the pseudo-element */
+opacity: 0;
+animation: fadeIn 1s ease-in-out forwards, slideUp 1s ease-in-out 1s forwards;
+}
+
+/* Shadow effect for the heading */
+.headingfollowus:after {
+content: 'Follow Us';
+padding-top: 20px;
+position: absolute; /* Absolute positioning to place it behind */
+top: 0;
+left: 0;
+width: 100%; /* Ensures it spans the full width of the heading */
+color: #ff6f61;
+z-index: -1; /* Ensures it's behind the main text */
+filter: blur(20px); /* Apply blur to the shadow */
+animation: glow 1.5s ease-out infinite alternate;
+text-align: center; /* Ensure the shadow text is aligned with the main text */
+}
+
+/* Animation for the fadeIn effect */
+@keyframes fadeIn {
+0% {
+opacity: 0;
+}
+100% {
+opacity: 1;
+}
+}
+
+/* Animation for sliding up */
+@keyframes slideUp {
+0% {
+transform: translateY(20px);
+}
+100% {
+transform: translateY(0);
+}
+}
+
+/* Animation for glowing shadow */
+@keyframes glow {
+0% {
+text-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 30px rgba(255, 0, 0, 0.5);
+}
+100% {
+text-shadow: 0 0 60px rgba(255, 0, 0, 1), 0 0 100px rgba(255, 0, 0, 0.7);
+}
+}
+
+.follow-us {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding-bottom: 50px;
+  gap: 20px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.follow-us a {
+  color: #ffd93d;
+  font-size: 2rem;
+  text-decoration: none;
+
+  transition: transform 0.3s ease, color 0.3s;
+}
+
+.follow-us a:hover {
+  transform: scale(1.2);
+  color: #ff6b6b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+  /* Chatbot Icon */
+.chatbot-icon {
+position: fixed;
+bottom: 70px;
+right: 30px;
+width: 60px;
+height: 60px;
+background-color: #007bff;
+border-radius: 50%;
+box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+/* background-color: #ffd93d; */
+color: #002d5b;
+border-radius: 50%;
+padding: 15px;
+font-size: 1.5rem;
+cursor: pointer;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s ease;
+z-index: 1000;
+}
+.chatbot-icon:hover {
+transform: scale(1.1);
+}
+
+/* Chat Window */
+.chat-window {
+display: none;
+position: fixed;
+bottom: 80px;
+right: 20px;
+width: 300px;
+background-color: #004f91;
+color: #fff;
+border-radius: 10px;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+overflow: hidden;
+z-index: 1000;
+}
+#chatbotclosebtn{
+border-radius: 20%;
+border: 2px solid #004f91;
+background: transparent;
+color: #ffd93d;
+
+/* background-color: #004f91; */
+}
+#chatbotclosebtn:hover{
+background-color: #ffd93d;
+color: #004f91;
+transform: scale(1.2);
+}
+/* Chat Header */
+.chat-header {
+background-color: #002d5b;
+padding: 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: bold;
+}
+
+/* Chat Body */
+.chat-body {
+padding: 10px;
+max-height: 200px;
+overflow-y: auto;
+font-size: 0.9rem;
+}
+
+.chat-message {
+margin: 5px 0;
+padding: 8px;
+border-radius: 5px;
+}
+
+.bot {
+background-color: #ffd93d;
+color: #002d5b;
+}
+
+.user {
+background-color: #4db8ff;
+color: #fff;
+text-align: right;
+}
+
+/* Chat Footer */
+.chat-footer {
+display: flex;
+padding: 5px;
+background-color: #002d5b;
+}
+
+.chat-footer input {
+flex-grow: 1;
+padding: 8px;
+border: none;
+border-radius: 5px;
+margin-right: 5px;
+}
+
+.chat-footer button {
+padding: 8px 12px;
+background-color: #ffd93d;
+color: #002d5b;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold;
+}

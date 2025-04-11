@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEEE CUSB - Report Generation</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPYdXZwCYBk64HR4GYNFNwXmyHKSia-vQqQ&s" type="image/x-icon">
+  <script src="/script.js"></script>
+  <!-- <script>
+    const quoteText = document.getElementById("quote-text");
+    quoteText.innerText = "Event Creation In Progress !!";
+  </script> -->
+  <style>
+    .text-color{
+      color: #ffd93d;
+      font-weight: 600;
+    }
+    .send_verify_btn{
+      background-color: #ffd93d !important;
+      color: #002f5a !important;
+      font-weight: 600 !important;
+    }
+    .send_verify_btn:hover{
+      background-color: #e3bb19 !important;
+    }
+    /* Custom styles for the dropdown */
+    .form-control{
+      background-color: #225a91; /* Light grey background */
+      color: #1a3044; /* Grey text */
+
+    }
+
+    .form-control option {
+      background-color: #f8f9fa; /* Light grey option background */
+      color: #343a40; /* Darker text for readability */
+    }
+
+    /* Style for the selected option */
+    .form-control:focus {
+      border-color: #adb5bd; /* Change border color on focus */
+      box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25); /* Focus shadow */
+    }
+  </style>
+  <style>
+    /* Success Message Styling */
+.success-message {
+    /* display: none; Initially hidden */
+    font-size: 1.5rem; /* Larger text for visibility */
+    font-weight: bold; /* Bold for emphasis */
+    text-align: center; /* Centered text */
+    background: linear-gradient(90deg, #4CAF50, #81C784); /* Gradient background for a modern look */
+    color: white; /* White text for contrast */
+    padding: 20px; /* Padding for spacing */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    animation: fadeInsuccess 1s ease-in-out; /* Smooth fade-in effect */
+}
+
+/* Animation for Success Message */
+@keyframes fadeInsuccess {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Utility class to toggle visibility */
+.hidden {
+    display: none !important; /* Ensures hidden when not active */
+}
+.toolbarbutton{
+  border: 2px solid #ffd93d !important;
+  color: #ffd93d !important;
+}
+.toolbarbutton:hover{
+  border: 2px solid #002f5a !important;
+  color: #ffd93d !important;
+}
+#emaildraftdiv{
+}
+  </style>
+
+<style>
+  /* Scoped Styles Without !important */
+  #acknowledgmentModal .modal-content {
+    background-color: #002f5a;
+    border-radius: 15px;
+    color: #ffd93d;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #acknowledgmentModal.modal.fade .modal-dialog {
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+  }
+
+  #acknowledgmentModal.modal.fade.show .modal-dialog {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  #acknowledgmentModal .btn-close {
+    border: 2px solid #ffd93d;
+  }
+  #acknowledgmentModal .btn-close:hover {
+    background-color: #ffd93d;
+  }
+  #acknowledgmentModal .modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ffd93d, #e3bb19, #225a91);
+    z-index: -1;
+    filter: blur(20px);
+    transform: scale(1.2);
+  }
+
+  #acknowledgmentModal .btn-secondary:hover {
+    background-color: #ffd93d;
+    color: #002f5a;
+  }
+
+  #acknowledgmentModal .btn-primary {
+    background-color: #ffd93d;
+    border-color: #ffd93d;
+    color: #002f5a;
+  }
+
+  #acknowledgmentModal .btn-primary:hover {
+    background-color: #e3bb19;
+    color: #002f5a;
+  }
+</style>
+
+
+
+
+
+    <script>
+
+      function sendVerificationCode() {
+          event.preventDefault();
+          const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+          localStorage.setItem('verificationCode', verificationCode);
+          const email = document.getElementById('email').value;
+  
+          const params = new URLSearchParams();
+          params.append('email', email);
+          params.append('verificationCode', verificationCode);
+          fetch('https://script.google.com/macros/s/AKfycbyQCf-xkJHUi8BtkTQX7aJf98ECJjn9VhyHScQogWaIs_67HAMNyYGpKCDXBbZdpLvD/exec', {
+              method: 'POST',
+              mode:'cors',
+              body: params
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json(); // Parse JSON response
+          })
+          .then(data => {
+              console.log('Success:', data);
+              alert(`Verification code sent to ${email}`);
+              
+              // Display the code for testing (Remove this in production)
+              alert(`Verification Code: ${data.code}`);
+  
+              // Optional: Store code in a hidden element or variable
+              // document.getElementById('hiddenVerificationCode').value = data.code;
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert(`Verification Code has been successufully sent to: ${email}`);
+          });
+          document.getElementById('emailForm').style.display = 'none';
+          document.getElementById('verificationForm').style.display = 'block';
+      }
+  
+  
+      function verifyCode() {
+          const enteredCode = document.getElementById('verificationCode').value;
+          const storedCode = localStorage.getItem('verificationCode');
+
+          // Get the current date and time
+          const now = new Date();
+
+        // Format options for the desired output
+        const options = { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric', 
+          hour: 'numeric', 
+          minute: '2-digit', 
+          second: '2-digit', 
+          hour12: true 
+        };
+
+        // Format the date and time
+        const formattedTime = now.toLocaleString('en-US', options);
+
+        // Set the formatted time as the value of the hidden input
+          if (enteredCode === storedCode) {
+              alert('Verification successful!');
+  
+              // Get the email from the input field and set it in the hidden input
+              const email = document.getElementById('email').value;
+              document.getElementById('emailInput').value = email;
+              document.getElementById("formattedTime").value = formattedTime;
+              document.getElementById('verificationCode').value = storedCode;
+              document.getElementById('signinactivitytype').value = "Bulk Mailing";
+              // Hide the verification form and show the event form
+              document.getElementById('verificationForm').style.display = 'none';
+              document.getElementById('eventForm').style.display = 'block';
+          } else {
+              alert('Incorrect code. Please try again.');
+          }
+      }
+    function formatDate(input) {
+        const date = new Date(input.value);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        
+        input.value = `${day}/${month}/${year}`; // Sets the value in dd/mm/yyyy format
+    }
+  </script>
+
+   <script>
+      function showAcknowledgmentModal() {
+        // Show the acknowledgment modal with a fade-in animation
+        const acknowledgmentModal = new bootstrap.Modal(document.getElementById('acknowledgmentModal'));
+        acknowledgmentModal.show();
+      }
+
+    // Hide form and display success message
+    function handleFormSubmit(event) {
+      // event.preventDefault(); // Prevent default submission
+          // Submit the form programmatically
+          const acknowledgmentModal = document.getElementById('acknowledgmentModal');
+          acknowledgmentModal.classList.add('hidden');
+          document.getElementById('eventForm').submit();
+
+          const form = document.getElementById('eventForm');
+          const successMessage = document.getElementById('successMessage');
+
+          // Hide form and show message
+          form.classList.add('hidden');
+          successMessage.classList.remove('hidden');
+
+          // Allow form to be submitted in a new tab
+          setTimeout(() => {
+            form.submit();
+          }, 100); // Small delay to display success message
+    }
+  </script>
+
+</head>
+<body>
+    <div id="fixedhtmlnavbar"></div><!-- Universal navbar + social handles + chatbot-->
+
+
+    <div class="container mt-5">
+      <h2 class="text-center text-color">Send Bulk Mail</h2>
+
+          <!-- Success Message -->
+    <div id="successMessage" class="container mt-5 success-message hidden">
+      You have provided the details. Sending emails...
+    </div>
+
+        <!-- Password Protection Form -->
+    <form id="passwordForm" onsubmit="verifyPassword(event)" style="display: block;">
+        <div class="mb-3">
+        <label for="password" class="form-label text-color">Enter your password</label>
+        <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+        <div id="passwordHelp" class="form-text text-light">Your password must be kept secure.</div>
+        </div>
+        <button type="submit" class="btn send_verify_btn w-100">Proceed</button>
+    </form>
+
+
+
+      <!-- Email Verification Form -->
+      <form id="emailForm" onsubmit="sendVerificationCode(event)" style="display: none;">
+        <div class="mb-3">
+            <label for="email" class="form-label  text-color">Enter your cumail.in email</label>
+            <input type="email" class="form-control" id="email" placeholder="user@cumail.in" required>
+            <div id="emailHelp" class="form-text text-light">Only cumail.in email addresses are accepted.</div>
+        </div>
+        <button type="submit" class="btn send_verify_btn w-100">Send Verification Code</button>
+    </form>
+
+
+
+
+      <!-- Verification Code Form -->
+      <div id="verificationForm" class="mt-3" style="display: none;">
+          <div class="mb-3">
+              <label for="verificationCode" class="form-label  text-color">Enter the 4-digit code sent to your email</label>
+              <input type="text" class="form-control" id="verificationCode" placeholder="XXXX" maxlength="4" pattern="\d{4}" required >
+          </div>
+          <button class="btn send_verify_btn w-100" onclick="verifyCode()">Verify Code</button>
+      </div>
+
+      <!-- Acknowledgment Modal -->
+      <div class="modal fade" id="acknowledgmentModal" tabindex="-1" aria-labelledby="acknowledgmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <div class="modal-header border-0">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5 class="mb-3">Is the information entered correct?</h5>
+              <p class="text-muted">Please confirm before submitting.</p>
+            </div>
+            <div class="modal-footer border-0 d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">No</button>
+              <button type="button" class="btn btn-primary" onclick=" handleFormSubmit()">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Event Details Form -->
+      <form action="https://script.google.com/macros/s/AKfycbwlJH5oUUuHjkCoN2kVQCaLDA-x6EQEWVMIfSwB6TZiQctftzPS_eXi1lR0D3MqSv5z/exec" method="POST" enctype="multipart/form-data" id="eventForm" class="mt-3 text-color" style="display: none;" target="_blank" onsubmit="return false;">
+        <input type="hidden" name="email" id="emailInput"> <!-- Hidden input for email -->
+        <input type="hidden" name="verificationCode" id="verificationCode">
+        <input type="hidden" name="formattedTimestamp" id="formattedTime">
+        <input type="hidden" name="signinactivitytype" id="signinactivitytype">
+        <input type="hidden" name="footer" id="footer">
+        <input type="hidden" name="emailbody" id="emailBodyInput">
+        <!-- Registration Entity Number -->
+
+        <!-- Target Audience Selection -->
+        <div class="mb-3">
+            <label for="recipientSelect" class="form-label ">Target Recipients</label> 
+            <select class="form-control" id="recipientSelect" name="recipients" required> 
+                <option value="" disabled selected>Choose the Target Audience for Your Email</option> 
+                <option value="All IEEE CUSB Members">All IEEE CUSB Members</option>
+                <option value="Student Members">Only Student Members</option>
+                <option value="Professional Members">Only Professional Members</option> 
+                <option value="IEEE Computer Society Members">Only IEEE Computer Society Members</option> 
+                <option value="IEEE Women in Engineering Members">Only IEEE Women in Engineering Affinity Group Members</option> 
+                <option value="IEEE Consumer Technology Society Members">Only IEEE Consumer Technology Society Members</option> 
+                <option value="IEEE Computational Intelligence Society Members">Only IEEE Computational Intelligence Society Members</option> 
+                <option value="IEEE Photonics Society Members">Only IEEE Photonics Society Members</option> 
+                <option value="IEEE Power & Energy Society Members">Only IEEE Power & Energy Society Members</option>
+                <option value="Prakash Bharti Photonics Members">Only Prakash Bharti Student Chapter Photonics Members</option>
+                <option value="IEEE Robotics & Automation Society Members">Only IEEE Robotics & Automation Society Members</option>
+                <option value="IEEE Communications Society Members">Only IEEE Communications Society Members</option>
+                <option value="Custom">Custom Selection/Others</option>             
+            </select>
+          </div>
+
+          <!-- Custom Names and Emails (Initially Hidden) -->
+        <div id="customFields" style="display: none;">
+            <div class="mb-3">
+                <label for="customNames" class="form-label">Enter Names (separate by commas)</label>
+                <input type="text" class="form-control" id="customNames" name="customNames" placeholder="Enter names separated by commas">
+            </div>
+
+            <div class="mb-3">
+                <label for="customEmails" class="form-label">Enter Emails (separate by commas)</label>
+                <input type="text" class="form-control" id="customEmails" name="customEmails" placeholder="Enter emails in the same order as names">
+            </div>
+        </div>
+    
+
+
+        <!-- Subject -->
+        <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject" required>
+        </div>
+
+        <!-- Email Body -->
+        <div class="mb-3" id="emaildraftdiv">
+          <label for="emailBody" class="form-label">Body</label>
+
+          <!-- Toolbar for Rich Text Options -->
+          <div class="toolbar">
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('bold')"><b>B</b></button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('italic')"><i>I</i></button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('underline')"><u>U</u></button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('justifyLeft')">Left</button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('justifyCenter')">Center</button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('justifyRight')">Right</button>
+            <button class="btn toolbarbutton" type="button" onclick="execCmd('justifyFull')">Justify</button>
+            <label for="colorPicker" class="btn toolbarbutton">Text Color</label>
+            <input type="color" id="colorPicker" class="toolbarbutton" title="Choose Text Color" onchange="changeColor()" style="background-color: #1a3044; border-radius: 20px; display: none;"/>           
+          </div>
+
+          <!-- Contenteditable Div as Email Body Editor -->
+          <div id="emailBody" contenteditable="true" class="form-control" rows="5" placeholder="Enter email body" required></div>
+          <div id="bodyHelp" class="form-text" style="color: #ced4da;">Please do not include a salutation (e.g., Dear Sir/Madam).</div>
+        </div>
+
+        <!-- File Attachment -->
+        <div class="mb-3">
+          <label for="attachment" class="form-label">Attach Files (Optional)</label>
+          <input type="file" class="form-control" id="attachment" name="attachment" multiple>
+          <!-- Hidden input to store base64 data -->
+          <input type="hidden" id="attachmentBase64" name="attachmentBase64">
+        </div>
+
+
+        <!-- Preview Section -->
+        <div class="mb-3">
+            <label for="preview" class="form-label">Preview</label>
+            <div id="preview" class="form-control" style="min-height: 100px; background-color: #f8f9fa; border: 1px solid #ced4da; padding: 10px;">
+                <!-- The preview will be displayed here -->
+                <p class="text-muted">Your email preview will appear here.</p>
+            </div>
+        </div>
+        
+        
+        <!-- Submit Button -->
+        <!-- <button type="submit" class="btn btn-primary w-100" >Generate QR Code and Submit</button> -->
+        <button type="submit" class="btn send_verify_btn w-100"  onclick="showAcknowledgmentModal()">Confirm and Send Mail</button>
+    </form>
+    
+<!-- <script>
+  document.getElementById("eventForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Collect form data
+    const data = {};
+    formData.forEach((value, key) => {
+        // For checkboxes, we need to collect multiple values
+        if (data[key]) {
+            if (Array.isArray(data[key])) {
+                data[key].push(value);
+            } else {
+                data[key] = [data[key], value];
+            }
+        } else {
+            data[key] = value;
+        }
+    });
+
+    try {
+        // Send data to the endpoint
+        const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (response.ok) {
+            alert("Form submitted successfully!");
+            form.reset(); // Reset the form after successful submission
+        } else {
+            alert("Failed to submit the form. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred while submitting the form. Please check your network and try again.");
+    }
+});
+
+</script>
+ -->
+
+
+<!-- Add JavaScript to Enable Editing -->
+
+<!-- Add JavaScript to Enable Editing and Preview Update -->
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+</script>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  // Function to execute commands like bold, italic, underline, etc.
+  function execCmd(command) {
+    document.execCommand(command, false, null);
+  }
+
+// Function to open a color picker and change text color
+function changeColor() {
+    var color= document.getElementById('colorPicker').value;
+    document.execCommand('foreColor', false, color);
+}
+  // Styling the email body editor
+  const emailBody = document.getElementById('emailBody');
+  emailBody.style.minHeight = '150px';
+  emailBody.style.border = '1px solid #ccc';
+  emailBody.style.padding = '10px';
+  emailBody.style.marginTop = '10px';
+
+  // Show/hide custom fields based on the selected recipient option
+  document.getElementById('recipientSelect').addEventListener('change', function () {
+    const customFields = document.getElementById('customFields');
+    const selectedOption = this.value;
+
+    // Show or hide custom fields based on the selected option
+    customFields.style.display = selectedOption === "Custom" ? 'block' : 'none';
+  });
+
+  // Preview the email body content with a dynamic salutation and footer
+  emailBody.addEventListener('input', function () {
+    const salutation = "Dear XYZ,<br><br>"; // Salutation text
+    const emailBodyContent = this.innerHTML || '<p class="text-muted">Your email preview will appear here.</p>'; // Fallback content
+    const selectedRecipient = document.getElementById('recipientSelect').value;
+
+    // Define footers based on the selected recipient
+    const footers = {
+      "All IEEE CUSB Members": "Best regards,<br>IEEE CUSB Team",
+      "Student Members": "Best regards,<br>IEEE CUSB Team",
+      "Professional Members": "Best regards,<br>IEEE CUSB Team",
+      "IEEE Computer Society Members": "Best regards,<br>IEEE Computer Society",
+      "IEEE Women in Engineering Members": "Best regards,<br>IEEE WIE CUSB Chapter",
+      "IEEE Consumer Technology Society Members": "Best regards,<br>IEEE Consumer Tech Society",
+      "IEEE Computational Intelligence Society Members": "Best regards,<br>IEEE Computational Intelligence Society",
+      "IEEE Photonics Society Members": "Best regards,<br>IEEE Photonics Society",
+      "IEEE Power & Energy Society Members": "Best regards,<br>IEEE Power & Energy Society",
+      "Prakash Bharti Photonics Members": "Best regards,<br>Prakash Bharti Photonics Chapter",
+      "IEEE Robotics & Automation Society Members": "Best regards,<br>IEEE Robotics & Automation Society",
+      "IEEE Communications Society Members": "Best regards,<br>IEEE Communications Society",
+    };
+
+    const footer = footers[selectedRecipient] || "Best regards,<br>IEEE CUSB Team";
+
+    // Update the preview
+    document.getElementById('preview').innerHTML = salutation + emailBodyContent + "<br><br>" + footer;
+    document.getElementById('footer').value = footer; // Update the hidden input field for form submission
+    // Update the hidden input field for form submission
+    document.getElementById('emailBodyInput').value = emailBodyContent;
+    console.log(emailBodyContent);
+  });
+</script>
+
+  <script>
+    document.getElementById('attachment').addEventListener('change', function(event) {
+        const files = event.target.files; // Get the selected files
+        const base64Files = []; // Array to store base64 data
+    
+        if (files.length > 0) {
+            const promises = []; // Array to track file reading promises
+    
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+    
+                // Create a promise to track when each file is read
+                const filePromise = new Promise((resolve, reject) => {
+                    reader.onloadend = function(e) {
+                        const base64File = e.target.result.split(',')[1]; // Remove the data URL prefix
+                        base64Files.push({
+                            fileName: file.name,
+                            base64Data: base64File,
+                            mimeType: file.type // Include MIME type
+                        });
+                        resolve();
+                    };
+                    reader.onerror = reject;
+                });
+                console.log('Script Loaded');
+                promises.push(filePromise); // Add the promise to the array
+                reader.readAsDataURL(file); // Read file as base64
+            }
+    
+            // Wait for all files to be processed
+            Promise.all(promises)
+                .then(() => {
+                    document.getElementById('attachmentBase64').value = JSON.stringify(base64Files);
+                    console.log('Base64 Files:', base64Files); // Debugging log
+                })
+                .catch((error) => {
+                    console.error('Error reading files:', error);
+                });
+        }
+    });
+     
+    </script>
+
+<script>
+  // Use a hashed version of the password
+  const storedHash = "ef4223ceb9ac753d86837fe69ff689e5608f9e2b1d52c766169c4670116116f3"; // Hash for 'password'
+
+  async function hashPassword(password) {
+    // Encode the password to a Uint8Array
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+
+    // Use SubtleCrypto to hash the password
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); // Convert buffer to byte array
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0")) // Convert bytes to hex
+      .join("");
+    return hashHex;
+  }
+
+  async function verifyPassword(event) {
+    event.preventDefault();
+    const password = document.getElementById("password").value;
+    const userHash = await hashPassword(password);
+
+    if (userHash === storedHash) {
+      alert("Access granted!");
+      document.getElementById("emailForm").style.display = "block";
+      document.getElementById("passwordForm").style.display = "none";
+      // Load the protected content
+    } else {
+      alert("Incorrect password. Please try again.");
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+    
+    <script>
+        fetch('fixedhtmlstructure.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('fixedhtmlnavbar').innerHTML = data;
+            setActiveLink();
+          });
+            // Function to set the active link based on current URL
+            function setActiveLink() {
+            // Get the current path of the page
+            const currentPath = window.location.pathname.split("/").pop(); // Extract only the filename
+            console.log("Current Path:", currentPath);
+    
+            // Select all nav-link elements
+            const navLinks = document.querySelectorAll('.nav-link');
+    
+            // Loop through each link and add/remove 'active' class based on currentPath
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href'); // Get the 'href' attribute of each link
+                console.log("Link Path:", linkPath);
+    
+                // Check if the link path matches the current path
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        fetch('fixedhtmlfooter.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fixedhtmlfooter').innerHTML = data;
+            });
+      </script>
+       
+        <div id="fixedhtmlfooter"></div> <!-- Universal footer banner-->
+
+        
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

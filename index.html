@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEEE CUSB Executive Suite</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPYdXZwCYBk64HR4GYNFNwXmyHKSia-vQqQ&s" type="image/x-icon">
+  <script src="/script.js"></script>
+  <script src="/loader.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Bootstrap CSS -->
+  
+  <!-- <link href="/style.css" rel="stylesheet"> -->
+   <!-- Custom CSS -->
+  <style> 
+    /* Landing Content */
+    .landing-content {
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    /* Animated Text (IEEE CUSB) */
+    .ieee-text {
+      font-size: 8vw;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ff6b6b, #ffd93d, #4db8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: pulseText 3s ease-in-out infinite, colorChange 5s linear infinite;
+    }
+    /* Welcome Text Animation */
+    .welcome-text {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: fadeIn 3s ease-in-out;
+    }
+    .description {
+      /* font-size: 1.5rem; */
+      max-width: ;
+      padding: 20px;
+      margin: 20px auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 2s ease 1.5s forwards;
+    }
+    /* Pulsing and Scaling Animation for Text */
+    @keyframes pulseText {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    /* Continuous Gradient Animation for Text */
+    @keyframes colorChange {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Fade-in Animation for Welcome Text */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+    <style>
+      /* Carousel Styling */
+      .carousel {
+        position: relative;
+        width: 90%;
+        max-width: 1000px;
+        margin: 50px auto;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+      }
+      .carousel-inner img {
+        border-radius: 10px;
+        object-fit:cover;
+        width:100%;
+        /* display: flex; */
+        justify-items: center;
+        align-items: center;
+        align-self: center;
+        height: 500px;
+        transition: transform 0.5s ease;
+      }
+      .carousel-inner img:hover {
+        transform: scale(1.05); /* Image zoom on hover */
+      }
+    </style>
+    <style>
+      .heading {
+        color: #fff;
+        font-size: 2.5rem;
+        text-align: center;
+        animation: zoomGlow 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes zoomGlow {
+        0% {
+          transform: scale(1);
+          text-shadow: 0 0 5px #fff, 0 0 10px #ff7a18, 0 0 15px #ffae42;
+        }
+        100% {
+          text-shadow: 0 0 10px #fff, 0 0 15px #ff7a18, 0 0 20px #ffae42;
+        }
+      }
+
+      /* Team Section Styling */
+      .team-section {
+        margin-top: 50px;
+      }
+      .profile-img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        border: 5px solid #ffd93d;
+        transition: transform 0.5s ease;
+      }
+
+      /* Branch Counselor Animation */
+      .branch-counselor {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        border: 3px solid transparent;
+        background: linear-gradient() padding-box,
+                    linear-gradient(135deg, #ff6b6b, #ffd93d, #4db8ff) border-box;
+        animation: borderPulse 2s ease-in-out infinite, fadeInSlideUp 1.5s ease forwards;
+      }
+      .branch-counselor:hover{
+        animation: fadeInSlideUp 2s ease 1s forwards;
+
+      }
+      .branch-counselor-img img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 0px solid #ffd93d;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        animation: counselorZoom 2s ease infinite alternate;
+      }
+
+      .branch-counselor-name {
+        color: #ffd93d;
+        font-size: 1.5rem;
+        animation: textFade 1.5s ease-in-out;
+      }
+
+      .branch-counselor-message {
+        color: #ffffff;
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        animation: fadeInSlideUp 2s ease 1s forwards;
+      }
+
+      @keyframes borderPulse {
+        0%, 100% {
+          border-color: #ff6b6b;
+        }
+        50% {
+          border-color: #ffd93d;
+        }
+      }
+
+      @keyframes counselorZoom {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes fadeInSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(100px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes textFade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+
+      /* Team Member Animations */
+      .team-member {
+        padding-top: 10px;
+        margin-top: 20px;
+        transition: transform 0.5s ease, box-shadow 0.3s;
+      }
+      .team-member:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+      }
+      .team-member a{
+        text-decoration: none;
+      }
+      .name{
+        font-size: 1rem;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(45deg, #ff7a18, #ffae42);
+        -webkit-background-clip: text;
+        color: transparent;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      }
+      .team-member:hover .name{
+        text-shadow: 0 0 8px #ff7a18, 0 0 12px #ffae42;
+      }
+      /* Rank Styling */
+      .rank{
+        color: #ffd93d;
+      }
+      /* Additional Text Styles */
+      h3 {
+        
+        margin-top: 10px;
+      }
+      p {
+        color: #fff;
+        font-size: 0.9rem;
+        font-style: italic;
+      }
+    </style>
+
+
+</head>
+<body>
+  
+  <div id="fixedhtml"></div>
+  
+  <!-- Landing Content -->
+  <div class="landing-content">
+    <!-- Animated IEEE CUSB Text -->
+    <div class="ieee-text">IEEE CUSB<br>
+      
+    </div>
+    <h2 style="color:#e79950; font-family: 'Times New Roman', Times, serif; font-weight: 700;">Executive Suite</h2>
+    <!-- Welcome Text -->
+    <h1 class="welcome-text" style="color: #fff;">Welcome to IEEE Chandigarh University Student Branch</h1>
+    <p class="description">Join us at the IEEE Chandigarh University Student Branch, where passion for technology and innovation meets a vibrant community of aspiring leaders.</p>
+    <!-- Button -->
+    <a href="eventregistration.html" class="btn btn-primary btn-lg mt-4" role="button">Register Event</a>
+  </div>
+  <div id="eventCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
+    <div class="carousel-inner" id="carousel-images">
+      <div class="carousel-item active"><img src="https://edu.ieee.org/in-cu/wp-content/uploads/sites/833/2024/01/cropped-IMG_0514-scaled-1-1536x864.jpg" class="d-block w-100 rounded-3" alt="Image 1"></div>
+      <div class="carousel-item"><img src="https://edu.ieee.org/in-cuchd/wp-content/uploads/sites/838/2022/12/IMG_9037-2048x1152.jpg" class="d-block w-100 rounded-3" alt="Image 2"></div>
+      <div class="carousel-item"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq8GamRwBVEDdUuaWbz-cnENMXQYBIA1Fe7AZv8YbEz-IwISj67nFU6hCHMvI34uBPc3zxLnnNTHoaUFfQWXIHYi75ka9HOAhk-OT-trekzynV2uz_F47zOwVxiDhAEZxbTN8JE7ibWe5e__UJhoqAqVsCr1zTQgQ3e_uv1SZkX5UUwTRBZKTN2iCo_4bL/s16000/444484218_856306409866961_586798333236081281_n.jpg" class="d-block w-100 rounded-3" alt="Image 2"></div>
+      <div class="carousel-item"><img src="https://edu.ieee.org/in-cuchdcs/wp-content/uploads/sites/844/2023/12/IMG_8173-scaled-1-1536x1024.jpg" class="d-block w-100 rounded-3" alt="Image 2"></div>
+      <div class="carousel-item"><img src="https://careermantra.org/front_assets/images/Chandigarh_University1.jpg" class="d-block w-100 rounded-3" alt="Image 2"></div>
+      <!-- <div class="carousel-item"><img src="https://via.placeholder.com/1536x864" class="d-block w-100 rounded-3" alt="Image 2"></div> -->
+      <!-- Add more carousel items as needed -->
+    </div>
+  </div>
+  <!-- Team Section -->
+  <h1 class="heading">Our Powerhouse Crew !!</h1>
+
+  <div class="team-section container">
+    <div class="branch-counselor text-center my-5 team-member">
+      <div class="branch-counselor-img">
+        <img src="https://edu.ieee.org/in-cuchdcs/wp-content/uploads/sites/844/2023/12/Sugandha-Sharma-1.jpg" alt="Branch Counselor" class="img-fluid rounded-circle">
+      </div>
+      <h2 class="name" style="padding-top: 15px;">Er. Sugandha Sharma</h2>
+      <h3 class="branch-counselor-name mt-3">Branch Counselor</h3>
+      <p class="branch-counselor-message">"Guiding the IEEE CUSB community to new heights of innovation and learning."</p>
+    </div>
+    
+    <!-- Chatbot Container -->
+<div class="chatbot-container">
+  <div class="chatbot-icon" onclick="toggleChatbot()">💬</div>
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <span>IEEE CUSB Chatbot</span>
+      <button onclick="toggleChatbot()" id="chatbotclosebtn">✖️</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-message bot">Hello! How can I help you today?</div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="userInput" placeholder="Type your message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="row justify-content-center">
+      <!-- Other Team Members -->
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="https://edu.ieee.org/in-cu/wp-content/uploads/sites/833/elementor/thumbs/Manav-Verma-q7slcko7p3kk3kdvxl1q69kpeyjakk1obkhpl419ko.png" class="profile-img" alt="Chair">
+        <h2 class="name">Manav Verma</h2>
+        <h3 class="rank">Chair</h3>
+        <p>"Pioneering tech excellence at IEEE CUSB."</p>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="https://edu.ieee.org/in-cu/wp-content/uploads/sites/833/elementor/thumbs/Akshat-ql0fl0wejrkhx604ik65t307dznnmag5s06rjhx708.jpeg" class="profile-img" alt="Vice Chair">
+        <h2 class="name">Akshat Srivastava</h2>
+        <h3 class="rank">Vice Chair</h3>
+        <p>"Together, we achieve more."</p>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <a href="https://www.linkedin.com/in/ramandeep-singh-ieee" target="_blank">
+        <img src="images/RamandeepSingh.jpg" class="profile-img" alt="Secretary">
+        <h2 class="name">Ramandeep Singh</h2>
+        <h3 class="rank">Secretary</h3>
+        <p>"Dedicated to keeping our branch thriving."</p>
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="/images/IMG-20240625-WA0023.jpg" class="profile-img" alt="Webmaster">
+        <h2 class="name">Harsahibjit Singh</h2>
+        <h3 class="rank">Webmaster</h3>
+        <p>"Keeping the website alive...barely."</p>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="https://edu.ieee.org/in-cu/wp-content/uploads/sites/833/elementor/thumbs/6-qgyj8cighuwf981p86208fyeofyq2ydwpqt169novs.jpeg" class="profile-img" alt="Treasurer">
+        <h2 class="name">Nitesh Kumar</h2>
+        <h3 class="rank">Treasurer</h3>
+        <p>"Counting every penny... almost literally."</p>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="/images/anirudh.jpg" class="profile-img" alt="Event Coordinator">
+        <h2 class="name">Anirudh Bhatia</h2>
+        <h3 class="rank">Event Coordinator</h3>
+        <p>"Bringing ideas to life through events."</p>
+      </div>
+      <div class="col-lg-3 col-md-4 text-center team-member">
+        <img src="/images/yadwindersingh.jpg" class="profile-img" alt="Head of Media">
+        <h2 class="name">Yadwinder Singh</h2>
+        <h3 class="rank">Head of Media</h3>
+        <p>"Capturing and sharing our journey."</p>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div id="fixedhtmlfooter"></div>
+      <script>
+        fetch('fixedhtmlstructure.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fixedhtml').innerHTML = data;
+                setActiveLink(); // Call the function after the structure is loaded
+            });
+    
+        function setActiveLink() {
+            // Get the current path of the page
+            const currentPath = window.location.pathname.split("/").pop(); // Extract only the filename
+            console.log("Current Path:", currentPath);
+    
+            // Select all nav-link elements
+            const navLinks = document.querySelectorAll('.nav-link');
+    
+            // Loop through each link and add/remove 'active' class based on currentPath
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href'); // Get the 'href' attribute of each link
+                console.log("Link Path:", linkPath);
+    
+                // Check if the link path matches the current path
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+    
+        fetch('fixedhtmlfooter.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fixedhtmlfooter').innerHTML = data;
+            });
+    </script>
+  
+  <!-- <br>created and managed by <a href="#" class="">Harsahibjit Singh</a> -->
+  <!-- Bootstrap JS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

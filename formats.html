@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEEE CUSB - Certificate Generation</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPYdXZwCYBk64HR4GYNFNwXmyHKSia-vQqQ&s" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="/script.js"></script>
+  <script src="loader.js"></script>
+  <style>
+    /* Heading Style */
+    .heading {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        color: #ffd93d; /* Text color */
+        background: linear-gradient(90deg, #002f5a, #004f91); /* Dark blue background gradient */
+        -webkit-background-clip: text;/* -webkit-text-fill-color: transparent; */
+        padding: 1rem;
+        margin: 2rem 0;
+        position: relative;
+        
+    }
+    /* Hover Effect */
+    .heading:hover {
+        transform: scale(1.05); /* Slightly scale up the heading */
+        color: #cb551b; /* Lighter color when hovered */
+    }
+    .heading:hover .shine{
+        color: #e2a23c;
+    }
+    .heading:hover #formattagline{
+        color: #e2a23c;
+    }
+    /* Star Shine Animation */
+    .shine {
+        padding-left: 0px;
+        font-size: 25px;
+        color: #ffd93d;
+        position: absolute;
+        /* right: 120px; Place it on the right side of the heading */
+        top: 20%;
+        /* transform: translateY(-50%); */
+        animation: star-shine 2s infinite alternate;
+    }
+
+    /* Star Shining Animation */
+    @keyframes star-shine {
+        0% {
+            opacity: 0.3;
+            transform: translateY(-50%) scale(0.8);
+        }
+        50% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.2);
+        }
+        100% {
+            opacity: 0.3;
+            transform: translateY(-50%) scale(0.8);
+        }
+    }
+
+    #formattagline{
+        font-family: 'Times New Roman', Times, serif;
+    }
+    /* Card Styling */
+    .format-card {
+        /* border: none; */
+        border-radius: 10px !important;
+        overflow: hidden;
+        background-color: #003f73 !important; 
+        color: #ffd93d;
+        transform: scale(1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .format-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Card Image */
+    .card-img-top {
+        height: 150px;
+        object-fit:fill;
+        transition: transform 0.3s ease;
+        text-align: center;
+        top: 20%;
+        position: relative;
+        font-size: 2rem;
+        font-family: 'Times New Roman', Times, serif;
+        color: #ffd93d;
+    }
+    .format-card:hover .card-img-top {
+        transform: scale(1.1);
+    }
+
+    /* Scrollable Container */
+    .container {
+    box-shadow: 0 4px 10px #ffd93d ;
+    border: 2px solid #002d5b;
+    border-radius: 20px;
+    
+    }
+    .card-body {
+        transition: background-color 0.3s ease;
+
+    }
+    .format-card:hover .card-body {
+        background-color: #002f5a;
+        border: 2px solid #002d5b;
+    }
+  </style>
+</head>
+<body>
+    <div id="fixedhtmlnavbar"></div>
+    <script>
+        fetch('fixedhtmlstructure.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('fixedhtmlnavbar').innerHTML = data;
+            setActiveLink();
+          });
+            // Function to set the active link based on current URL
+            function setActiveLink() {
+            // Get the current path of the page
+            const currentPath = window.location.pathname.split("/").pop(); // Extract only the filename
+            console.log("Current Path:", currentPath);
+    
+            // Select all nav-link elements
+            const navLinks = document.querySelectorAll('.nav-link');
+    
+            // Loop through each link and add/remove 'active' class based on currentPath
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href'); // Get the 'href' attribute of each link
+                console.log("Link Path:", linkPath);
+    
+                // Check if the link path matches the current path
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        fetch('fixedhtmlfooter.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fixedhtmlfooter').innerHTML = data;
+            });
+      </script>
+      
+      <script>
+        document.getElementById("certificateFormaction").onsubmit = function(event) {
+        const nameField = document.getElementById("name");
+            if (!nameField.value.trim()) {
+                alert("Name field cannot be empty!");
+                event.preventDefault();
+            }
+        };
+        function toggleChapterField() {
+            const organizedBy = document.getElementById("organizedBy").value;
+            document.getElementById("chapterField").style.display = organizedBy === "chapter" ? "block" : "none";
+        }
+    
+      </script>
+
+<script>
+    function downloadformat(formatName) {
+        const fileName = formatName+'.pdf';
+        const filePath = `ieeeformats/${fileName}`;
+        const link = document.createElement('a');
+        link.href = filePath;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+<div class="heading">FORMATS<h4 id="formattagline">Providing Essential Formats as per Department of Academic Affairs.</h4></div>
+<div class="container py-5" style="background-color: #004f91; color: #ffd93d;">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <!-- Format Cards -->
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('Event Approval Form')">
+                <div class="card-img-top">Event Approval</div>
+                <div class="card-body">
+                    <h5 class="card-title">Event Approval Form</h5>
+                    <p class="card-text">Essential for seeking approval for event proposals.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('Entity Approval Form')">
+                <div class="card-img-top">Entity Approval</div>
+                <div class="card-body">
+                    <h5 class="card-title">Entity Approval Form</h5>
+                    <p class="card-text">Required for gaining approval for organizational entities.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('M2M FORMAT')">
+                <div class="card-img-top">M2M</div>
+                <div class="card-body">
+                    <h5 class="card-title">M2M FORMAT</h5>
+                    <p class="card-text">A format for minute to minute for event.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('BUDGET')">
+                <div class="card-img-top">Budget</div>
+                <div class="card-body">
+                    <h5 class="card-title">BUDGET</h5>
+                    <p class="card-text">Template for financial planning and approvals.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('ENTITY PROPOSAL FORM')">
+                <div class="card-img-top">Entity Proposal</div>
+                <div class="card-body">
+                    <h5 class="card-title">ENTITY PROPOSAL FORM</h5>
+                    <p class="card-text">Used for submitting proposals for new entities.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('EVENT PROPOSAL FORM')">
+                <div class="card-img-top">Event Proposal</div>
+                <div class="card-body">
+                    <h5 class="card-title">EVENT PROPOSAL FORM</h5>
+                    <p class="card-text">To outline and propose new events.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card format-card h-100" onclick="downloadformat('Minutes of Meeting')">
+                <div class="card-img-top">Minutes</div>
+                <div class="card-body">
+                    <h5 class="card-title">Minutes of Meeting</h5>
+                    <p class="card-text">Document discussions and decisions from meetings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div id="fixedhtmlfooter"></div>
+
+        
+
+
+       <!-- Bootstrap JS -->
+        
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
